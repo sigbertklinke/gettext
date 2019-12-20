@@ -1,0 +1,16 @@
+Package: gettext
+Title: Implements gettext and ngettext for localization of messages in R
+Version: 0.1
+Authors@R: 
+  c(person("Sigbert", "Klinke", email="sigbert@hu-berlin.de", role=c("aut", "cre")))
+Description: The package implements the GNU gettext and ngettext command for localization of messages based on PO files. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+  crayon,
+  stringr,
+  rjson
+RoxygenNote: 6.1.1
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr

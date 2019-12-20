@@ -1,0 +1,17 @@
+msgid           "Number of bins:"
+msgstr          ""
+
+msgid           "%.0f bin"
+msgid_plural    "%.0f bins"
+msgstr[0]       ""
+msgstr[1]       ""
+
+msgid           "Eruption time"
+msgstr          ""
+
+msgid           "Frequency"
+msgstr          ""
+
+msgid           "Old Faithful geyser"
+msgstr          ""
+

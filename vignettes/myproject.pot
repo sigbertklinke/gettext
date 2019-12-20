@@ -1,0 +1,21 @@
+msgid           "shiny"
+msgstr          ""
+
+msgid           "Eruption time"
+msgstr          ""
+
+msgid           "Frequency"
+msgstr          ""
+
+msgid           "Old Faithful geyser"
+msgstr          ""
+
+msgid           "nbin"
+msgstr          ""
+
+msgid           "Number of bins:"
+msgstr          ""
+
+msgid           "distPlot"
+msgstr          ""
+

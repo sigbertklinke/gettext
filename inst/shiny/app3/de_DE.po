@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: de_DE\n"
+
+msgid "Number of bins:"
+msgstr "Anzahl der Klassen:"
+
+msgid "%.0f bin"
+msgid_plural "%.0f bins"
+msgstr[0] "%.0f Klasse"
+msgstr[1] "%.0f Klassen"
+
+msgid "Eruption time"
+msgstr "Eruptionszeit"
+
+msgid "Frequency"
+msgstr "Häufigkeit"
+
+msgid "Old Faithful geyser"
+msgstr "Old Faithful Geysir"
