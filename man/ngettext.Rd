@@ -12,9 +12,9 @@ N(id1, id2, n, lang = getOption("gettext.lang"),
   domain = getOption("gettext.domain"), context = NA)
 }
 \arguments{
-\item{id1}{character: untranslated singular message}
+\item{id1}{character: untranslated singular message(s)}
 
-\item{id2}{character: untranslated plural message}
+\item{id2}{character: untranslated plural message(s)}
 
 \item{n}{integer: the number (e.g. item count) to determine the translation for the respective grammatical number}
 
@@ -25,7 +25,7 @@ N(id1, id2, n, lang = getOption("gettext.lang"),
 \item{context}{character: context (default: \code{NA})}
 }
 \value{
-the translated string
+the translated string(s)
 }
 \description{
 Returns a translated string from the untranslated string \code{id2}. An abbreviated form is \code{N} since 

@@ -1,0 +1,33 @@
+msgid           "Silhouette width "
+msgstr          ""
+
+msgid           "Silhouette plot"
+msgstr          ""
+
+msgid           "Average silhouette width : "
+msgstr          ""
+
+msgid           "clusters"
+msgstr          ""
+
+msgid           "Cluster distances"
+msgstr          ""
+
+msgid           "Point location"
+msgstr          ""
+
+msgid           "Point belongs to"
+msgstr          ""
+
+msgid           "red cluster"
+msgstr          ""
+
+msgid           "blue cluster"
+msgstr          ""
+
+msgid           "Cluster assignment"
+msgstr          ""
+
+msgid           "Silhouettes"
+msgstr          ""
+

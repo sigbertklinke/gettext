@@ -12,7 +12,7 @@ G(id1, lang = getOption("gettext.lang"),
   domain = getOption("gettext.domain"), context = NA)
 }
 \arguments{
-\item{id1}{character: untranslated message}
+\item{id1}{character: untranslated message(s)}
 
 \item{lang}{character: language code (default: \code{getOption('gettext.lang')}, usually \code{"en"})}
 
@@ -21,7 +21,7 @@ G(id1, lang = getOption("gettext.lang"),
 \item{context}{character: context (default: \code{NA})}
 }
 \value{
-the translated string
+the translated string(s)
 }
 \description{
 Returns a translated string from the untranslated string \code{id1}. An abbreviated form is \code{G} since 
