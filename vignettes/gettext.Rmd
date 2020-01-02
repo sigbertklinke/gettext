@@ -33,10 +33,10 @@ The package implements `gettext`, `ngettext` to use various languages and domain
 : GNU gettext distinguishes between domains. Basically a domain is the name for your application. This allows to create different translations for the same messages in dependence of the application in use.
 
 **Language**
-: GNU gettext distinguishes between languages ;) It allows to translate messages for application in every language.
+: GNU gettext distinguishes between languages ;) It allows translating messages for application in every language.
 
 **Plural**
-: In your application you may have messages which depend on numbers, e.g. `1 error made`, `2 errors made`, ... . In some languages you have more than one plural form, e.g. in arabic you have up to six plural forms depending on your number.
+: In your application you may have messages which depend on numbers, e.g. `1 error made`, `2 errors made`, ... . In some languages you have more than one plural form, e.g. in Arabic you have up to six plural forms depending on your number.
 
 **Context**
 : The translation of a messages may depend on a context, e.g. the translation of `I saw her duck` depends on the interpretation of `duck`, it differs if `duck` is a noun or a verb.
@@ -47,7 +47,7 @@ Usually in a PO file the messages and its translation for one language and one d
 
 For detailed overview, see the GNU gettext manual, section [The Format of PO files](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html#PO-Files).
 
-The basic structure is an entry of the form
+The basic structure is an entry of the form:
 
 ```{r eval=FALSE}
 msgid untranslated-string
@@ -67,7 +67,7 @@ msgstr[N] translated-string-case-n
 To use plurals you need to define in your PO file how from the number in the message
 the correct plural form from 0 till N can be calculated.
 
-Contexts can be given by
+Contexts can be given by:
 
 ```{r eval=FALSE}
 msgctxt context
@@ -77,7 +77,7 @@ msgstr translated-string
 
 ## ISO 639
 
-ISO 639 is a set of standards by the International Organization for Standardization that is concerned with representation of names for languages and language groups. It uses a two- or three letter code to identify a language.
+ISO 639 is a set of standards by the International Organization for Standardization that is concerned with representation of names for languages and language groups. It uses a two- or three-letter code to identify a language.
 
 ```{r}
 library("gettext")
@@ -89,6 +89,9 @@ head(iso639)
 
 The package contains two example apps which shows an interactive histogram using Shiny, see [`shiny/app1/app.R`](#app1) and [`shiny/app2/app.R`](#app2).
 
+**Note:** Before you start to translate the texts of your app to other languages, 
+make sure that the development of your app is finished. Otherwise, you may have to redo translations again and again.
+
 The first step would be to extract all texts from your program (here we take the example `app.R` which
 is included in the package)
 
@@ -98,9 +101,9 @@ xgettext(system.file('shiny', 'app1', 'app.R', package='gettext'))
 
 Note: A difference to the standard `xgettext` is that ALL strings are extracted from the R program. 
 The output consists of four columns: the first columns tells if it is a single string, or within a 
-\code{gettext}, \code{G}, \code{ngettext} or \code{N} command. The second column is the message id 
-and the third column contains the plural form. The fourth column contains the context (default: \code{NA}).
-Therefore you can check later if all strings which needs to be translated are really translated, see [in the appendix](#xget2).
+`gettext`, `G`, `ngettext` or `N` command. The second column is the message id 
+and the third column contains the plural form. The fourth column contains the context (default: `NA`).
+Therefore, you can check later if all strings which needs to be translated are really translated, see [in the appendix](#xget2).
 
 The next step is to create a template file for the translation, a `pot` file, from it:
 
@@ -110,18 +113,18 @@ writePotfile(txt, 'myproject.pot')
 ```
 
 You may edit the [POT file](#pot), e.g. with an editor as [Poedit](https://poedit.net/), 
-and create a [PO file](#po) for german and store it in your Shiny app directory.
+and create a [PO file](#po) for German and store it in your Shiny app directory.
 
 ![](poedit.png)
 
 The final step is to modify your [app](#app2), replace any `"text"` by `gettext("text")`. The observer in the app in at the beginning uses the URL parameter `lang` to choose the language.
 
-To see a demo of the apps you may run
+To see a demo of the apps you may run:
 
 ```{r eval=FALSE}
 exampleApp('app1')   # Shiny app without language support 
-exampleApp('app2en') # Shiny app in the default language (english)
-exampleApp('app2de') # Shiny app in german
+exampleApp('app2en') # Shiny app in the default language (English)
+exampleApp('app2de') # Shiny app in German
 ```
 
 # The `gettext` package
@@ -136,8 +139,8 @@ The internal environment can be saved to and read from a file with the commands 
 
 ##`options`, `bind` and `bindtextdomain`
 
-In `gettext` you need to specify a *language* and a *domain*. The domain becomes important when you load translations for several apps, because the same text might be translated differently in two apps. Since most 
-users wil have just one app they will simplay use the default domain `''`. The current language and domain can be set by 
+In `gettext` you need to specify a *language* and a *domain*. The domain becomes important when you load translations for several apps, because the same text might be translated differently in two apps. Most 
+users will have just one app and will simply use the default domain `''`. The current language and domain can be set by:
 
 ```{r, eval=FALSE}
 options(gettext.lang='lang')
@@ -145,7 +148,7 @@ options(gettext.domain='mydomain')
 ```
 
 The `bind` command decomposes a base file name into language and domain. For detecting the language at the end
-of a file name the `iso639` data object ist used.
+of a file name the `iso639` data object is used.
 
 ```{r}
 bind('myproject_de.po')
@@ -182,16 +185,16 @@ gettext('No translation found')
 ngettext('Found %.0f translation', 'Found %.0f translations', 7)
 ```
 
-Both commands use either the currently set language and domain 
+Both commands use either the currently set language and domain:
 
 ```{r, eval=FALSE}
 getOption('gettext.lang')
 getOption('gettext.domain')
 ```
 
-or you can explicitly use the parameters `lang` and `domain`.
+Or you can explicitly use the parameters `lang` and `domain`.
 
-`dsub` and `S` perform the dollar substitution
+`dsub` and `S` perform the dollar substitution:
 
 ```{r}
 dsub('$a EUR', a=3)
@@ -201,7 +204,7 @@ S('$a EUR', list(a=3))
 
 ## `xgettext` and `writePotfile`
 
-`xgettext` analyzes an expression for text constants and `gettext`, `ngettext`, `G` and `N` function calls.
+`xgettext` analyses an expression for text constants and `gettext`, `ngettext`, `G` and `N` function calls.
 
 ```{r}
 file <- system.file('shiny', 'app1', 'app.R', package='gettext')
@@ -225,7 +228,7 @@ writePotfile(txt, "my.pot")
 With `addPlural` you can add a plural for a language and domain. Basically you could circumvent 
 the usage of `POT` and `PO` files by using them directly. 
 
-For example plurals see `plural`
+For example plurals see `plural`:
 
 ```{r}
 data(plural)
@@ -274,8 +277,8 @@ exampleApp('app1')
 xgettext(system.file('shiny', 'app2', 'app.R', package='gettext'))
 ```
 
-The `NA` entries indicate that a `gettext` has been been found in the R code. Below you see the extracted
-text constant. It there is no text constant to extract then the following entry may not appear, 
+The `NA` entries indicate that a `gettext` has been found in the R code. Below you see the extracted
+text constant. It there is no text constant to extract than the following entry may not appear, 
 but at least you are hinted to this `gettext` in your program.
 
 ## `xgettext` on `shiny/app3/app.R` {#xget3}
