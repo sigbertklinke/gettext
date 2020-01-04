@@ -122,9 +122,10 @@ The final step is to modify your [app](#app2), replace any `"text"` by `gettext(
 To see a demo of the apps you may run:
 
 ```{r eval=FALSE}
-exampleApp('app1')   # Shiny app without language support 
-exampleApp('app2en') # Shiny app in the default language (English)
-exampleApp('app2de') # Shiny app in German
+library("mmstat.utils")
+demoApp('app1')   # Shiny app without language support 
+demoApp('app2en') # Shiny app in the default language (English)
+demoApp('app2de') # Shiny app in German
 ```
 
 # The `gettext` package
@@ -135,7 +136,7 @@ The package has an internal environment `translation` which stores the messages 
 With `getTranslation()` you can get a copy of this environment as a list. Note that changes in this copy
 will not change anything in the internal environment.
 
-The internal environment can be saved to and read from a file with the commands `saveTranslation` and `readTranslation`. These commands use internally `saveRDS` and `readRDS`. Rather than analysing a `PO`file when starting your program, as in the example appy, you might load all messages and save it. In your app you may load the saved translations via `readtranslation`.
+The internal environment can be saved to and read from a file with the commands `saveTranslation` and `readTranslation`. These commands use internally `saveRDS` and `readRDS`. Rather than analysing a `PO`file when starting your program, as in the example app, you might load all messages and save it. In your app you may load the saved translations via `readtranslation`.
 
 ##`options`, `bind` and `bindtextdomain`
 
@@ -175,7 +176,7 @@ domain and languages will be used. You may change that by using the parameters `
 readPofile('myproject_de_DE.po', lang='de')
 ```
 
-## `gettext`, `ngettext` and `dsub`
+## `gettext` and `ngettext`
 
 With `gettext` and `ngettext` you can get translations for your text. Since R does not support `_` as operator
 and it might not be a good idea to define a function `_` I use `G` and `N` as abbreviations.
@@ -193,14 +194,6 @@ getOption('gettext.domain')
 ```
 
 Or you can explicitly use the parameters `lang` and `domain`.
-
-`dsub` and `S` perform the dollar substitution:
-
-```{r}
-dsub('$a EUR', a=3)
-dsub('$aEUR', a=3, aE=7)
-S('$a EUR', list(a=3))
-```
 
 ## `xgettext` and `writePotfile`
 
@@ -234,20 +227,6 @@ For example plurals see `plural`:
 data(plural)
 plural[[7]]  # Arabic
 ``` 
-
-## `exampleApp`
-
-With `exampleApp` you can list all Shiny examples and run a specific example.
-
-```{r}
-exampleApp() 
-```
-
-To run a specific example call
-
-```{r, eval=FALSE}
-exampleApp('app1') 
-```
 
 # Appendix
 

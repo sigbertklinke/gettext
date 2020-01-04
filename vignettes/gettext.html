@@ -180,7 +180,7 @@ summary {
 <h4 class="author">Sigbert Klinke</h4>
 <a class="author_email" href="mailto:#"><a href="mailto:sigbert@hu-berlin.de">sigbert@hu-berlin.de</a></a>
 </address>
-<h4 class="date">02 Januar, 2020</h4>
+<h4 class="date">04 Januar, 2020</h4>
 
 </div>
 
@@ -196,10 +196,9 @@ summary {
 <li><a href="#gettranslation-savetranslation-and-readtranslation"><code>getTranslation</code>, <code>saveTranslation</code>, and <code>readTranslation</code></a></li>
 <li><a href="#options-bind-and-bindtextdomain"><code>options</code>, <code>bind</code> and <code>bindtextdomain</code></a></li>
 <li><a href="#readpofile"><code>readPofile</code></a></li>
-<li><a href="#gettext-ngettext-and-dsub"><code>gettext</code>, <code>ngettext</code> and <code>dsub</code></a></li>
+<li><a href="#gettext-and-ngettext"><code>gettext</code> and <code>ngettext</code></a></li>
 <li><a href="#xgettext-and-writepotfile"><code>xgettext</code> and <code>writePotfile</code></a></li>
 <li><a href="#addmsg-and-addplural"><code>addMsg</code> and <code>addPlural</code></a></li>
-<li><a href="#exampleapp"><code>exampleApp</code></a></li>
 </ul></li>
 <li><a href="#appendix">Appendix</a><ul>
 <li><a href="#app1"><code>shiny/app1/app.R</code></a></li>
@@ -295,16 +294,17 @@ writePotfile(txt, 'myproject.pot')</code></pre>
 </div>
 <p>The final step is to modify your <a href="#app2">app</a>, replace any <code>&quot;text&quot;</code> by <code>gettext(&quot;text&quot;)</code>. The observer in the app in at the beginning uses the URL parameter <code>lang</code> to choose the language.</p>
 <p>To see a demo of the apps you may run:</p>
-<pre class="r"><code>exampleApp('app1')   # Shiny app without language support 
-exampleApp('app2en') # Shiny app in the default language (English)
-exampleApp('app2de') # Shiny app in German</code></pre>
+<pre class="r"><code>library(&quot;mmstat.utils&quot;)
+demoApp('app1')   # Shiny app without language support 
+demoApp('app2en') # Shiny app in the default language (English)
+demoApp('app2de') # Shiny app in German</code></pre>
 </div>
 <div id="the-gettext-package" class="section level1">
 <h1>The <code>gettext</code> package</h1>
 <div id="gettranslation-savetranslation-and-readtranslation" class="section level2">
 <h2><code>getTranslation</code>, <code>saveTranslation</code>, and <code>readTranslation</code></h2>
 <p>The package has an internal environment <code>translation</code> which stores the messages and its translations. With <code>getTranslation()</code> you can get a copy of this environment as a list. Note that changes in this copy will not change anything in the internal environment.</p>
-<p>The internal environment can be saved to and read from a file with the commands <code>saveTranslation</code> and <code>readTranslation</code>. These commands use internally <code>saveRDS</code> and <code>readRDS</code>. Rather than analysing a <code>PO</code>file when starting your program, as in the example appy, you might load all messages and save it. In your app you may load the saved translations via <code>readtranslation</code>.</p>
+<p>The internal environment can be saved to and read from a file with the commands <code>saveTranslation</code> and <code>readTranslation</code>. These commands use internally <code>saveRDS</code> and <code>readRDS</code>. Rather than analysing a <code>PO</code>file when starting your program, as in the example app, you might load all messages and save it. In your app you may load the saved translations via <code>readtranslation</code>.</p>
 </div>
 <div id="options-bind-and-bindtextdomain" class="section level2">
 <h2><code>options</code>, <code>bind</code> and <code>bindtextdomain</code></h2>
@@ -351,8 +351,8 @@ bind(files)</code></pre>
 <p>Reads one or more <code>PO</code> files into the internal translation environment. If file names are given then the default domain and languages will be used. You may change that by using the parameters <code>lang</code> and <code>domain</code>.</p>
 <pre class="r"><code>readPofile('myproject_de_DE.po', lang='de')</code></pre>
 </div>
-<div id="gettext-ngettext-and-dsub" class="section level2">
-<h2><code>gettext</code>, <code>ngettext</code> and <code>dsub</code></h2>
+<div id="gettext-and-ngettext" class="section level2">
+<h2><code>gettext</code> and <code>ngettext</code></h2>
 <p>With <code>gettext</code> and <code>ngettext</code> you can get translations for your text. Since R does not support <code>_</code> as operator and it might not be a good idea to define a function <code>_</code> I use <code>G</code> and <code>N</code> as abbreviations.</p>
 <pre class="r"><code>gettext('No translation found')
 ngettext('Found %.0f translation', 'Found %.0f translations', 7)</code></pre>
@@ -360,13 +360,6 @@ ngettext('Found %.0f translation', 'Found %.0f translations', 7)</code></pre>
 <pre class="r"><code>getOption('gettext.lang')
 getOption('gettext.domain')</code></pre>
 <p>Or you can explicitly use the parameters <code>lang</code> and <code>domain</code>.</p>
-<p><code>dsub</code> and <code>S</code> perform the dollar substitution:</p>
-<pre class="r"><code>dsub('$a EUR', a=3)</code></pre>
-<pre><code>## [1] &quot;3 EUR&quot;</code></pre>
-<pre class="r"><code>dsub('$aEUR', a=3, aE=7)</code></pre>
-<pre><code>## [1] &quot;7UR&quot;</code></pre>
-<pre class="r"><code>S('$a EUR', list(a=3))</code></pre>
-<pre><code>## [1] &quot;3 EUR&quot;</code></pre>
 </div>
 <div id="xgettext-and-writepotfile" class="section level2">
 <h2><code>xgettext</code> and <code>writePotfile</code></h2>
@@ -416,21 +409,13 @@ plural[[7]]  # Arabic</code></pre>
 ## 
 ## $plural
 ## function(n) { 1+ifelse((n==0),0,ifelse((n==1),1,ifelse((n==2),2,ifelse((((n%%100)&gt;=3)&amp;((n%%100)&lt;=10)),3,ifelse(((n%%100)&gt;=11),4,5)))))}
-## &lt;environment: 0x55b0d6c05038&gt;
+## &lt;environment: 0x55e6f8bb0f78&gt;
 ## 
 ## $lang
 ## [1] &quot;ar&quot;
 ## 
 ## $form
 ## [1] &quot;nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100&gt;=3 &amp;&amp; n%100&lt;=10 ? 3 : n%100&gt;=11 ? 4 : 5);&quot;</code></pre>
-</div>
-<div id="exampleapp" class="section level2">
-<h2><code>exampleApp</code></h2>
-<p>With <code>exampleApp</code> you can list all Shiny examples and run a specific example.</p>
-<pre class="r"><code>exampleApp() </code></pre>
-<pre><code>## [1] &quot;app1&quot;   &quot;app2&quot;   &quot;app2de&quot; &quot;app2en&quot; &quot;app3de&quot; &quot;app3en&quot; &quot;sil_de&quot; &quot;sil_en&quot;</code></pre>
-<p>To run a specific example call</p>
-<pre class="r"><code>exampleApp('app1') </code></pre>
 </div>
 </div>
 <div id="appendix" class="section level1">

@@ -17,7 +17,7 @@
 gettext <- function(id1, lang=getOption('gettext.lang'), domain=getOption('gettext.domain'), context=NA) {
   id1 <- as.character(id1)
   ret <- id1
-  if (length(id1)) {
+  if (length(id1) && !is.null(lang) && !is.null(domain)) {
     for (i in seq(id1)) {
       key <- makeKey(id1[i], NA, lang, domain, context)
       if (!is.null(translation[[key]])) ret[i] <- translation[[key]][1]
