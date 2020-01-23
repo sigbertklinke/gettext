@@ -11,11 +11,7 @@
 #' @examples
 #' xgettext(parse(system.file('app1', 'app.R', package='gettext')))
 #' xgettext(parse(system.file('app2', 'app.R', package='gettext')))
-xgettext  <- function(expr, ...) UseMethod("xgettext")
-
-#' @export
-#' @rdname xgettext
-xgettext.default <- function(expr, ...) {
+xgettext <- function(expr, ...) {
   recurse_all <- function(x) {
     ret <- matrix('', ncol=4, nrow=0)
     if (is.atomic(x)) {
@@ -56,16 +52,15 @@ xgettext.default <- function(expr, ...) {
   }
   if (nrow(ret)) {
     ret <- ret[!duplicated(ret),]
-    class(ret) <- c('xgettext', class(ret))
+    class(ret) <- c('xxgettext', class(ret))
   } 
-
   colnames(ret) <- c('function', 'id1', 'id2', 'context')
   ret
 }
 
 #' print
 #'
-#' @param x xgettext object
+#' @param x xxgettext object
 #' @param ... further parameters given to \code{print.default}
 #'
 #' @return returns its argument invisibly
@@ -74,4 +69,4 @@ xgettext.default <- function(expr, ...) {
 #' @examples
 #' txt <- xgettext(parse(system.file('shiny', 'app1', 'app.R', package='gettext')))
 #' txt
-print.xgettext <- function (x, ...) { print.default(x, ...) }
+#print.xgettext <- function (x, ...) { print.default(x, ...) }

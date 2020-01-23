@@ -180,7 +180,7 @@ summary {
 <h4 class="author">Sigbert Klinke</h4>
 <a class="author_email" href="mailto:#"><a href="mailto:sigbert@hu-berlin.de">sigbert@hu-berlin.de</a></a>
 </address>
-<h4 class="date">04 Januar, 2020</h4>
+<h4 class="date">22 Januar, 2020</h4>
 
 </div>
 
@@ -198,6 +198,7 @@ summary {
 <li><a href="#readpofile"><code>readPofile</code></a></li>
 <li><a href="#gettext-and-ngettext"><code>gettext</code> and <code>ngettext</code></a></li>
 <li><a href="#xgettext-and-writepotfile"><code>xgettext</code> and <code>writePotfile</code></a></li>
+<li><a href="#gettextify"><code>gettextify</code></a></li>
 <li><a href="#addmsg-and-addplural"><code>addMsg</code> and <code>addPlural</code></a></li>
 </ul></li>
 <li><a href="#appendix">Appendix</a><ul>
@@ -213,7 +214,7 @@ summary {
 
 <p>With GNU gettext programmers got a utility to internationalise their applications:</p>
 <p><em>Usually, programs are written and documented in English, and use English at execution time for interacting with users. This is true not only from within GNU, but also in a great deal of proprietary and free software. Using a common language is quite handy for communication between developers, maintainers and users from all countries. On the other hand, most people are less comfortable with English than with their own native language, and would rather be using their mother tongue for day to day’s work, as far as possible. Many would simply love seeing their computer screen showing a lot less of English, and far more of their own language.</em></p>
-<p>The package implements <code>gettext</code>, <code>ngettext</code> to use various languages and domains in parallel. <code>xgettext</code> extracts all strings from a R file or a R expression.</p>
+<p>The package implements <code>gettext</code>, <code>ngettext</code> to use various languages and domains in parallel. <code>xgettext</code> extracts all strings from an R file or an R expression. <code>gettextify</code> takes an existing R code and puts around all text constants a <code>gettext</code>.</p>
 <div id="understanding-gnu-gettext" class="section level1">
 <h1>Understanding GNU gettext</h1>
 <div id="gnu-gettext-vocabulary" class="section level2">
@@ -240,7 +241,7 @@ summary {
 <p>The basic structure is an entry of the form:</p>
 <pre class="r"><code>msgid untranslated-string
 msgstr translated-string</code></pre>
-<p>Plurals can be added by</p>
+<p>Plurals can be added by:</p>
 <pre class="r"><code>msgid untranslated-string-singular
 msgid_plural untranslated-string-plural
 msgstr[0] translated-string-case-0
@@ -282,8 +283,8 @@ head(iso639)</code></pre>
 ## [6,] &quot;&quot;       &quot;Number of bins:&quot;     &quot;&quot;  NA     
 ## [7,] &quot;&quot;       &quot;distPlot&quot;            &quot;&quot;  NA     
 ## attr(,&quot;class&quot;)
-## [1] &quot;xgettext&quot; &quot;matrix&quot;</code></pre>
-<p>Note: A difference to the standard <code>xgettext</code> is that ALL strings are extracted from the R program. The output consists of four columns: the first columns tells if it is a single string, or within a <code>gettext</code>, <code>G</code>, <code>ngettext</code> or <code>N</code> command. The second column is the message id and the third column contains the plural form. The fourth column contains the context (default: <code>NA</code>). Therefore, you can check later if all strings which needs to be translated are really translated, see <a href="#xget2">in the appendix</a>.</p>
+## [1] &quot;xxgettext&quot; &quot;matrix&quot;</code></pre>
+<p>Note: A difference to the standard <code>xgettext</code> is that ALL strings are extracted from the R program. The output consists of four columns: column one tells if it is a single string, or within a <code>gettext</code>, <code>G</code>, <code>ngettext</code> or <code>N</code> command. The second column is the message id and the third column contains the plural form. The fourth column contains the context (default: <code>NA</code>). Therefore, you can check later if all strings which needs to be translated are really translated, see <a href="#xget2">in the appendix</a>.</p>
 <p>The next step is to create a template file for the translation, a <code>pot</code> file, from it:</p>
 <pre class="r"><code>txt &lt;- xgettext(system.file('shiny', 'app1', 'app.R', package='gettext'))
 writePotfile(txt, 'myproject.pot')</code></pre>
@@ -294,10 +295,10 @@ writePotfile(txt, 'myproject.pot')</code></pre>
 </div>
 <p>The final step is to modify your <a href="#app2">app</a>, replace any <code>&quot;text&quot;</code> by <code>gettext(&quot;text&quot;)</code>. The observer in the app in at the beginning uses the URL parameter <code>lang</code> to choose the language.</p>
 <p>To see a demo of the apps you may run:</p>
-<pre class="r"><code>library(&quot;mmstat.utils&quot;)
-demoApp('app1')   # Shiny app without language support 
-demoApp('app2en') # Shiny app in the default language (English)
-demoApp('app2de') # Shiny app in German</code></pre>
+<pre class="r"><code>library(&quot;demoShiny&quot;)
+demoShiny('app1')   # Shiny app without language support 
+demoShiny('app2en') # Shiny app in the default language (English)
+demoShiny('app2de') # Shiny app in German</code></pre>
 </div>
 <div id="the-gettext-package" class="section level1">
 <h1>The <code>gettext</code> package</h1>
@@ -375,7 +376,7 @@ xgettext(file)</code></pre>
 ## [6,] &quot;&quot;       &quot;Number of bins:&quot;     &quot;&quot;  NA     
 ## [7,] &quot;&quot;       &quot;distPlot&quot;            &quot;&quot;  NA     
 ## attr(,&quot;class&quot;)
-## [1] &quot;xgettext&quot; &quot;matrix&quot;</code></pre>
+## [1] &quot;xxgettext&quot; &quot;matrix&quot;</code></pre>
 <pre class="r"><code>file &lt;- system.file('shiny', 'app2', 'app.R', package='gettext')
 xgettext(file)</code></pre>
 <pre><code>##       function  id1                   id2 context
@@ -392,11 +393,29 @@ xgettext(file)</code></pre>
 ## [11,] &quot;gettext&quot; &quot;Old Faithful geyser&quot; NA  NA     
 ## [12,] &quot;&quot;        &quot;distPlot&quot;            &quot;&quot;  NA     
 ## attr(,&quot;class&quot;)
-## [1] &quot;xgettext&quot; &quot;matrix&quot;</code></pre>
+## [1] &quot;xxgettext&quot; &quot;matrix&quot;</code></pre>
 <p>The result of <code>xgettext</code> can be stored in a <code>POT</code> file to create with external software translations in other languages.</p>
 <pre class="r"><code>file &lt;- system.file('shiny', 'app2', 'app.R', package='gettext')
 txt  &lt;- xgettext(file)
 writePotfile(txt, &quot;my.pot&quot;)</code></pre>
+</div>
+<div id="gettextify" class="section level2">
+<h2><code>gettextify</code></h2>
+<p><code>gettextify</code> takes as argument an R expression, a file name, or an R code. It replaces all text constants with <code>gettext(&quot;text&quot;)</code>. Excluded are only text constants which appear within <code>gettext</code>, <code>G</code>, <code>ngettext</code>, <code>N</code>, <code>require</code> or <code>library</code>.</p>
+<pre class="r"><code>file &lt;- system.file('shiny', 'app1', 'app.R', package='gettext')
+txt  &lt;- gettextify(file)
+cat(txt, sep=&quot;\n&quot;)</code></pre>
+<pre><code>## library(&quot;gettext&quot;)
+## library(&quot;shiny&quot;)
+## server &lt;- function(input, output) {
+##     output$distPlot &lt;- renderPlot({
+##         breaks &lt;- seq(min(faithful$eruptions), max(faithful$eruptions), len = input$nbin + 1)
+##         hist(faithful$eruptions, breaks = breaks, xlab = gettext(&quot;Eruption time&quot;), ylab = gettext(&quot;Frequency&quot;), main = gettext(&quot;Old Faithful geyser&quot;))
+##     })
+## }
+## ui &lt;- fluidPage(sidebarLayout(sidebarPanel(sliderInput(gettext(&quot;nbin&quot;), gettext(&quot;Number of bins:&quot;), min = 2, max = 50, value = 20)), mainPanel(plotOutput(gettext(&quot;distPlot&quot;)))))
+## shinyApp(ui = ui, server = server)</code></pre>
+<p>The result <code>txt</code> can be saved, e.g. with <code>writeLines</code>, to a file. Note that this is a helper function and still requires that you check/work on the result!</p>
 </div>
 <div id="addmsg-and-addplural" class="section level2">
 <h2><code>addMsg</code> and <code>addPlural</code></h2>
@@ -409,7 +428,7 @@ plural[[7]]  # Arabic</code></pre>
 ## 
 ## $plural
 ## function(n) { 1+ifelse((n==0),0,ifelse((n==1),1,ifelse((n==2),2,ifelse((((n%%100)&gt;=3)&amp;((n%%100)&lt;=10)),3,ifelse(((n%%100)&gt;=11),4,5)))))}
-## &lt;environment: 0x55e6f8bb0f78&gt;
+## &lt;environment: 0x55c3852d17d0&gt;
 ## 
 ## $lang
 ## [1] &quot;ar&quot;
@@ -564,7 +583,7 @@ msgstr &quot;&quot;</code></pre>
 ## [11,] &quot;gettext&quot; &quot;Old Faithful geyser&quot; NA  NA     
 ## [12,] &quot;&quot;        &quot;distPlot&quot;            &quot;&quot;  NA     
 ## attr(,&quot;class&quot;)
-## [1] &quot;xgettext&quot; &quot;matrix&quot;</code></pre>
+## [1] &quot;xxgettext&quot; &quot;matrix&quot;</code></pre>
 <p>The <code>NA</code> entries indicate that a <code>gettext</code> has been found in the R code. Below you see the extracted text constant. It there is no text constant to extract than the following entry may not appear, but at least you are hinted to this <code>gettext</code> in your program.</p>
 </div>
 <div id="xget3" class="section level2">
@@ -585,7 +604,7 @@ msgstr &quot;&quot;</code></pre>
 ## [12,] &quot;gettext&quot;  &quot;Old Faithful geyser&quot; NA          NA     
 ## [13,] &quot;&quot;         &quot;distPlot&quot;            &quot;&quot;          NA     
 ## attr(,&quot;class&quot;)
-## [1] &quot;xgettext&quot; &quot;matrix&quot;</code></pre>
+## [1] &quot;xxgettext&quot; &quot;matrix&quot;</code></pre>
 </div>
 </div>
 

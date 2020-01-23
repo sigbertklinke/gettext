@@ -2,12 +2,9 @@
 % Please edit documentation in R/xgettext.R
 \name{xgettext}
 \alias{xgettext}
-\alias{xgettext.default}
 \title{xgettext}
 \usage{
 xgettext(expr, ...)
-
-\method{xgettext}{default}(expr, ...)
 }
 \arguments{
 \item{expr}{expression or character: expression or file name to analyse}

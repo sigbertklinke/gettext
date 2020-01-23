@@ -52,5 +52,6 @@ gettextify <- function(expr, exclude=NULL) {
   }
   if (!is.expression(res)) stop('Neither filename, R code nor R expression given') 
   res <- recurse_all(res)
-  c('library("gettext")', as.character(res))
+  res <- strsplit(as.character(res), "\n")
+  c('library("gettext")', unlist(res))
 }

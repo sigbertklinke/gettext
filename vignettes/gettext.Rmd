@@ -23,7 +23,7 @@ With GNU gettext programmers got a utility to internationalise their application
 
 *Usually, programs are written and documented in English, and use English at execution time for interacting with users. This is true not only from within GNU, but also in a great deal of proprietary and free software. Using a common language is quite handy for communication between developers, maintainers and users from all countries. On the other hand, most people are less comfortable with English than with their own native language, and would rather be using their mother tongue for day to day's work, as far as possible. Many would simply love seeing their computer screen showing a lot less of English, and far more of their own language.*
 
-The package implements `gettext`, `ngettext` to use various languages and domains in parallel. `xgettext` extracts all strings from a R file or a R expression.
+The package implements `gettext`, `ngettext` to use various languages and domains in parallel. `xgettext` extracts all strings from an R file or an R expression. `gettextify` takes an existing R code and puts around all text constants a `gettext`.
 
 # Understanding GNU gettext
 
@@ -54,7 +54,7 @@ msgid untranslated-string
 msgstr translated-string
 ```
 
-Plurals can be added by 
+Plurals can be added by:
 
 ```{r eval=FALSE}
 msgid untranslated-string-singular
@@ -64,8 +64,7 @@ msgstr[0] translated-string-case-0
 msgstr[N] translated-string-case-n
 ```
 
-To use plurals you need to define in your PO file how from the number in the message
-the correct plural form from 0 till N can be calculated.
+To use plurals you need to define in your PO file how from the number in the message the correct plural form from 0 till N can be calculated.
 
 Contexts can be given by:
 
@@ -92,17 +91,14 @@ The package contains two example apps which shows an interactive histogram using
 **Note:** Before you start to translate the texts of your app to other languages, 
 make sure that the development of your app is finished. Otherwise, you may have to redo translations again and again.
 
-The first step would be to extract all texts from your program (here we take the example `app.R` which
-is included in the package)
+The first step would be to extract all texts from your program (here we take the example `app.R` which is included in the package)
 
 ```{r}
 xgettext(system.file('shiny', 'app1', 'app.R', package='gettext'))
 ```
 
 Note: A difference to the standard `xgettext` is that ALL strings are extracted from the R program. 
-The output consists of four columns: the first columns tells if it is a single string, or within a 
-`gettext`, `G`, `ngettext` or `N` command. The second column is the message id 
-and the third column contains the plural form. The fourth column contains the context (default: `NA`).
+The output consists of four columns: column one tells if it is a single string, or within a `gettext`, `G`, `ngettext` or `N` command. The second column is the message id and the third column contains the plural form. The fourth column contains the context (default: `NA`).
 Therefore, you can check later if all strings which needs to be translated are really translated, see [in the appendix](#xget2).
 
 The next step is to create a template file for the translation, a `pot` file, from it:
@@ -122,10 +118,10 @@ The final step is to modify your [app](#app2), replace any `"text"` by `gettext(
 To see a demo of the apps you may run:
 
 ```{r eval=FALSE}
-library("mmstat.utils")
-demoApp('app1')   # Shiny app without language support 
-demoApp('app2en') # Shiny app in the default language (English)
-demoApp('app2de') # Shiny app in German
+library("demoShiny")
+demoShiny('app1')   # Shiny app without language support 
+demoShiny('app2en') # Shiny app in the default language (English)
+demoShiny('app2de') # Shiny app in German
 ```
 
 # The `gettext` package
@@ -138,7 +134,7 @@ will not change anything in the internal environment.
 
 The internal environment can be saved to and read from a file with the commands `saveTranslation` and `readTranslation`. These commands use internally `saveRDS` and `readRDS`. Rather than analysing a `PO`file when starting your program, as in the example app, you might load all messages and save it. In your app you may load the saved translations via `readtranslation`.
 
-##`options`, `bind` and `bindtextdomain`
+## `options`, `bind` and `bindtextdomain`
 
 In `gettext` you need to specify a *language* and a *domain*. The domain becomes important when you load translations for several apps, because the same text might be translated differently in two apps. Most 
 users will have just one app and will simply use the default domain `''`. The current language and domain can be set by:
@@ -215,11 +211,22 @@ txt  <- xgettext(file)
 writePotfile(txt, "my.pot")
 ```
 
+## `gettextify` 
+
+`gettextify` takes as argument an R expression, a file name, or an R code. It replaces all text constants with `gettext("text")`. Excluded are only text constants which appear within `gettext`, `G`, `ngettext`, `N`, `require` or `library`.
+
+```{r}
+file <- system.file('shiny', 'app1', 'app.R', package='gettext')
+txt  <- gettextify(file)
+cat(txt, sep="\n")
+```
+
+The result `txt` can be saved, e.g. with `writeLines`, to a file. Note that this is a helper function and still requires that you check/work on the result!
+
 ## `addMsg` and `addPlural`
 
 `readPofile` uses `addMsg` to add a message and its translations to the internal environment. 
-With `addPlural` you can add a plural for a language and domain. Basically you could circumvent 
-the usage of `POT` and `PO` files by using them directly. 
+With `addPlural` you can add a plural for a language and domain. Basically you could circumvent the usage of `POT` and `PO` files by using them directly. 
 
 For example plurals see `plural`:
 

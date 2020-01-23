@@ -1,9 +1,9 @@
 Package: gettext
-Title: Implements gettext and ngettext for localization of messages in R
+Title: Implements Localization of Texts Similar to 'GNU gettext'
 Version: 0.1
 Authors@R: 
   c(person("Sigbert", "Klinke", email="sigbert@hu-berlin.de", role=c("aut", "cre")))
-Description: The package implements the GNU gettext and ngettext command for localization of messages based on PO files. 
+Description: Based on PO files the package implements a subset of 'GNU gettext' commands for localization of messages: gettext, ngettext, xgettext and bindtextdomain. It allows to extract all texts from an R program and to create a POT file. A gettextified version of the R program can be created. On startup the default language is set to english and can be changed within R without affecting LANG, the system language.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
