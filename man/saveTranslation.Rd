@@ -6,20 +6,25 @@
 \alias{cleanTranslation}
 \title{saveTranslation, readTranslation and cleanTranslation}
 \usage{
-saveTranslation(file, ascii = FALSE, version = 2, compress = TRUE,
-  refhook = NULL)
+saveTranslation(
+  file,
+  ascii = FALSE,
+  version = 2,
+  compress = TRUE,
+  refhook = NULL
+)
 
 readTranslation(file, refhook = NULL, append = TRUE)
 
 cleanTranslation()
 }
 \arguments{
-\item{file}{a \link{connection} or the name of the file where the \R object
+\item{file}{a \link[base]{connection} or the name of the file where the \R object
     is saved to or read from.}
 
 \item{ascii}{a logical.  If \code{TRUE} or \code{NA}, an ASCII
     representation is written; otherwise (default), a binary one is used.
-    See the comments in the help for \code{\link{save}}.}
+    See the comments in the help for \code{\link[base]{save}}.}
 
 \item{version}{the workspace format version to use.  \code{NULL}
     specifies the current default version (3). The only other supported
@@ -45,9 +50,18 @@ nothing
 }
 }
 \examples{
-\dontrun{
-saveTranslation("translation.RDS")
+# read a german PO file from the package directory into the internal translation object
+fd <- bind(de=system.file("shiny", "app2", "myproject_de_DE.po", package="gettext"))
+readPofile(fd)
+# show a copy of the internal translation object
+getTranslation()
+# save the internal translation object to a file
+file <- sprintf("\%s/translation.RDS", tempdir(TRUE))
+saveTranslation(file)
+# deletes all entries in the internal translation object
 cleanTranslation()
-readTranslation("translation.RDS")
-}
+getTranslation() # should be empty
+# loads an previously saved internal translation object from a file
+readTranslation(file)
+getTranslation() 
 }

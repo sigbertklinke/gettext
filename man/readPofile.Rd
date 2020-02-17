@@ -4,30 +4,42 @@
 \alias{readPofile}
 \title{readPofile}
 \usage{
-readPofile(file, lang = getOption("gettext.lang"),
-  domain = getOption("gettext.domain"), append = FALSE)
+readPofile(
+  file,
+  lang = getOption("gettext.lang"),
+  domain = getOption("gettext.domain"),
+  append = FALSE,
+  encoding = "UTF-8"
+)
 }
 \arguments{
-\item{file}{character vector with file names or languageFile object}
+\item{file}{character vector with file names or \code{\link{bind}} object}
 
 \item{lang}{character: language code (default: \code{getOption('gettext.lang')}, usually \code{"en"})}
 
 \item{domain}{character: text domain (default: \code{getOption('gettext.domain')}, usually \code{NA})}
 
 \item{append}{logical: append POfile to internal translation environment or overwrite (default)}
+
+\item{encoding}{character: encoding to be assumed for input files. It is used to mark character strings as known to be in Latin-1 or UTF-8: it is not used to re-encode the input (default: "UTF-8")}
 }
 \value{
-invisibly the internal used languageFile object
+invisibly the internal used bind object
 }
 \description{
 Reads one or more PO file into the library internal translation object. 
-If \code{file} has been created with \code{\link{language}} then several files with different
+If \code{file} has been created with \code{\link{bind}} then several files with different
 domains and languages can be read at once.
 }
-\examples{
-\dontrun{
-readPofile('test_de.po', lang='de')
-readPofile(languageFiles('test_de.po'))
+\note{
+Make sure that your PO files are stored with encoding UTF-8. 
+You may check this under Linux with \code{file -bi myproject.po} and under Windows 
+if you drag and drop your \code{myproject.po} to Firefox
 }
-
+\examples{
+file <- system.file("shiny", "app2", "myproject_de_DE.po", package="gettext")
+# force austrian german, use default domain
+readPofile(file, lang="de_AT") 
+# detect language and domain from file name
+readPofile(bind(file), append=TRUE)
 }

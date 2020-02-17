@@ -4,9 +4,15 @@
 \alias{addPlural}
 \title{addPlural}
 \usage{
-addPlural(nplurals = 1, plural = function(n) {     0 }, text = NULL,
+addPlural(
+  nplurals = 1,
+  plural = function(n) {     0 },
+  text = NULL,
   lang = getOption("gettext.lang"),
-  domain = getOption("gettext.domain"), file = NA, line = NA)
+  domain = getOption("gettext.domain"),
+  file = NA,
+  line = NA
+)
 }
 \arguments{
 \item{nplurals}{integer: number of plural forms (default: \code{1})}

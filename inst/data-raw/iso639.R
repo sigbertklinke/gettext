@@ -1,4 +1,6 @@
-iso639 <- read.csv("iso639-full.csv", stringsAsFactors = FALSE)
+library("gettext")
+file   <- system.file("data-raw", "iso639-full.csv", package="gettext")
+iso639 <- read.csv(file, stringsAsFactors = FALSE)
 iso639 <- data.frame(code=trimws(c(iso639$alpha3.b, iso639$alpha3.t, iso639$alpha2)),
                      english=trimws(rep(iso639$English, 3)),
                      french=trimws(rep(iso639$French, 3)),
@@ -14,5 +16,6 @@ iso639 <- rbind(iso639, data.frame(code=local,
                                    stringsAsFactors = FALSE)) 
 iso639 <- iso639[-pos,]
 iso639$english <- iconv(iso639$english, to="UTF-8")
-iso639$french <- iconv(iso639$french, to="UTF-8")
-save(iso639, file='../../data/iso639.rda', version=2)
+iso639$french  <- iconv(iso639$french, to="UTF-8")
+file <- sprintf("%s/iso639.rda", tempdir(TRUE))
+save(iso639, file=file, version=2)

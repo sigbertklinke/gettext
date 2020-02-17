@@ -103,7 +103,7 @@ Therefore, you can check later if all strings which needs to be translated are r
 
 The next step is to create a template file for the translation, a `pot` file, from it:
 
-```{r}
+```{r eval=FALSE}
 txt <- xgettext(system.file('shiny', 'app1', 'app.R', package='gettext'))
 writePotfile(txt, 'myproject.pot')
 ```
@@ -137,15 +137,14 @@ The internal environment can be saved to and read from a file with the commands 
 ## `options`, `bind` and `bindtextdomain`
 
 In `gettext` you need to specify a *language* and a *domain*. The domain becomes important when you load translations for several apps, because the same text might be translated differently in two apps. Most 
-users will have just one app and will simply use the default domain `''`. The current language and domain can be set by:
+users will have just one app and will simply use the default domain `NA`. The current language and domain can be set by:
 
 ```{r, eval=FALSE}
 options(gettext.lang='lang')
 options(gettext.domain='mydomain')
 ```
 
-The `bind` command decomposes a base file name into language and domain. For detecting the language at the end
-of a file name the `iso639` data object is used.
+The `bind` command decomposes a base file name into language and domain. For detecting the language at the end of a file name the `iso639` data object is used.
 
 ```{r}
 bind('myproject_de.po')
@@ -154,7 +153,7 @@ bind(de=c('myproject1.po', 'myproject2.po'))
 bind(de=c('myproject1_de.po', 'myproject2_de.po'), 
           en=c('myproject1_en.po', 'myproject2_en.po'))
 files <- c("myproject_de.po", 
-            "intl/for_use_owncloud_impress_cs_CZ.po",
+           "intl/for_use_owncloud_impress_cs_CZ.po",
            "intl/ibalsa-master-zh_HK.po",
            "spirit-po/test1.po")
 bind(files)
@@ -162,6 +161,12 @@ bind(files)
 
 The `bindtextdomain` looks at all `.po` files from the directory, calls `bind` and replaces the detected domains
 by the given domain.
+
+To use any of the translations you have to set the language, e.g.
+
+```{r, eval=FALSE}
+options(gettext.lang='zh_hk')
+```
 
 ## `readPofile`
 

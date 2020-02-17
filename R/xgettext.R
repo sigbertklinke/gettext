@@ -9,8 +9,8 @@
 #' @export
 #'
 #' @examples
-#' xgettext(parse(system.file('app1', 'app.R', package='gettext')))
-#' xgettext(parse(system.file('app2', 'app.R', package='gettext')))
+#' xgettext(system.file('shiny', 'app1', 'app.R', package='gettext'))
+#' xgettext(system.file('shiny', 'app2', 'app.R', package='gettext'))
 xgettext <- function(expr, ...) {
   recurse_all <- function(x) {
     ret <- matrix('', ncol=4, nrow=0)
@@ -45,11 +45,11 @@ xgettext <- function(expr, ...) {
   #
   if (is.character(expr)) {
     files <- expr
-    ret   <- NULL
-    for (file in files) ret <- rbind(ret, recurse_all(parse(expr)))
-  } else {
-    if (is.expression(expr)) ret <- recurse_all(expr) else stop('Neither filename nor expression given')
-  }
+    expr  <- vector("expression", 0)
+    for (file in files) expr <- c(expr, parse(file))
+  } 
+  if (!is.expression(expr)) stop(sprintf("expression expected, found: %s", paste0(class(expr), collapse=", ")))
+  ret <- recurse_all(expr)
   if (nrow(ret)) {
     ret <- ret[!duplicated(ret),]
     class(ret) <- c('xxgettext', class(ret))
@@ -57,16 +57,3 @@ xgettext <- function(expr, ...) {
   colnames(ret) <- c('function', 'id1', 'id2', 'context')
   ret
 }
-
-#' print
-#'
-#' @param x xxgettext object
-#' @param ... further parameters given to \code{print.default}
-#'
-#' @return returns its argument invisibly
-#' @export
-#'
-#' @examples
-#' txt <- xgettext(parse(system.file('shiny', 'app1', 'app.R', package='gettext')))
-#' txt
-#print.xgettext <- function (x, ...) { print.default(x, ...) }

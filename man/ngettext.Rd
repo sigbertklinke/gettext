@@ -5,11 +5,23 @@
 \alias{N}
 \title{ngettext}
 \usage{
-ngettext(id1, id2, n, lang = getOption("gettext.lang"),
-  domain = getOption("gettext.domain"), context = NA)
+ngettext(
+  id1,
+  id2,
+  n,
+  lang = getOption("gettext.lang"),
+  domain = getOption("gettext.domain"),
+  context = NA
+)
 
-N(id1, id2, n, lang = getOption("gettext.lang"),
-  domain = getOption("gettext.domain"), context = NA)
+N(
+  id1,
+  id2,
+  n,
+  lang = getOption("gettext.lang"),
+  domain = getOption("gettext.domain"),
+  context = NA
+)
 }
 \arguments{
 \item{id1}{character: untranslated singular message(s)}

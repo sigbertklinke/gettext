@@ -14,11 +14,20 @@
 #' @export
 #' 
 #' @examples
-#' \dontrun{
-#' saveTranslation("translation.RDS")
+#' # read a german PO file from the package directory into the internal translation object
+#' fd <- bind(de=system.file("shiny", "app2", "myproject_de_DE.po", package="gettext"))
+#' readPofile(fd)
+#' # show a copy of the internal translation object
+#' getTranslation()
+#' # save the internal translation object to a file
+#' file <- sprintf("%s/translation.RDS", tempdir(TRUE))
+#' saveTranslation(file)
+#' # deletes all entries in the internal translation object
 #' cleanTranslation()
-#' readTranslation("translation.RDS")
-#' }
+#' getTranslation() # should be empty
+#' # loads an previously saved internal translation object from a file
+#' readTranslation(file)
+#' getTranslation() 
 saveTranslation <- function(file, ascii = FALSE, version = 2, compress = TRUE, refhook = NULL) {
   saveRDS(translation, file,  ascii, version, compress, refhook)
 }

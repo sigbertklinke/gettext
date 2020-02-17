@@ -4,9 +4,16 @@
 \alias{addMsg}
 \title{addMsg}
 \usage{
-addMsg(id, str, plural = NA, context = NA,
+addMsg(
+  id,
+  str,
+  plural = NA,
+  context = NA,
   lang = getOption("gettext.lang"),
-  domain = getOption("gettext.domain"), file = NA, line = NA)
+  domain = getOption("gettext.domain"),
+  file = NA,
+  line = NA
+)
 }
 \arguments{
 \item{id}{character: message id, see \code{msgid}}

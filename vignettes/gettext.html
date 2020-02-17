@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -145,6 +144,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -180,7 +180,7 @@ summary {
 <h4 class="author">Sigbert Klinke</h4>
 <a class="author_email" href="mailto:#"><a href="mailto:sigbert@hu-berlin.de">sigbert@hu-berlin.de</a></a>
 </address>
-<h4 class="date">22 Januar, 2020</h4>
+<h4 class="date">17 Februar, 2020</h4>
 
 </div>
 
@@ -309,7 +309,7 @@ demoShiny('app2de') # Shiny app in German</code></pre>
 </div>
 <div id="options-bind-and-bindtextdomain" class="section level2">
 <h2><code>options</code>, <code>bind</code> and <code>bindtextdomain</code></h2>
-<p>In <code>gettext</code> you need to specify a <em>language</em> and a <em>domain</em>. The domain becomes important when you load translations for several apps, because the same text might be translated differently in two apps. Most users will have just one app and will simply use the default domain <code>''</code>. The current language and domain can be set by:</p>
+<p>In <code>gettext</code> you need to specify a <em>language</em> and a <em>domain</em>. The domain becomes important when you load translations for several apps, because the same text might be translated differently in two apps. Most users will have just one app and will simply use the default domain <code>NA</code>. The current language and domain can be set by:</p>
 <pre class="r"><code>options(gettext.lang='lang')
 options(gettext.domain='mydomain')</code></pre>
 <p>The <code>bind</code> command decomposes a base file name into language and domain. For detecting the language at the end of a file name the <code>iso639</code> data object is used.</p>
@@ -331,7 +331,7 @@ options(gettext.domain='mydomain')</code></pre>
 ## en1       en myproject1_en     en myproject1_en.po
 ## en2       en myproject2_en     en myproject2_en.po</code></pre>
 <pre class="r"><code>files &lt;- c(&quot;myproject_de.po&quot;, 
-            &quot;intl/for_use_owncloud_impress_cs_CZ.po&quot;,
+           &quot;intl/for_use_owncloud_impress_cs_CZ.po&quot;,
            &quot;intl/ibalsa-master-zh_HK.po&quot;,
            &quot;spirit-po/test1.po&quot;)
 bind(files)</code></pre>
@@ -346,6 +346,8 @@ bind(files)</code></pre>
 ## 3            intl/ibalsa-master-zh_HK.po
 ## 4                     spirit-po/test1.po</code></pre>
 <p>The <code>bindtextdomain</code> looks at all <code>.po</code> files from the directory, calls <code>bind</code> and replaces the detected domains by the given domain.</p>
+<p>To use any of the translations you have to set the language, e.g.</p>
+<pre class="r"><code>options(gettext.lang='zh_hk')</code></pre>
 </div>
 <div id="readpofile" class="section level2">
 <h2><code>readPofile</code></h2>
@@ -428,7 +430,7 @@ plural[[7]]  # Arabic</code></pre>
 ## 
 ## $plural
 ## function(n) { 1+ifelse((n==0),0,ifelse((n==1),1,ifelse((n==2),2,ifelse((((n%%100)&gt;=3)&amp;((n%%100)&lt;=10)),3,ifelse(((n%%100)&gt;=11),4,5)))))}
-## &lt;environment: 0x55c3852d17d0&gt;
+## &lt;environment: 0x55598d0ff160&gt;
 ## 
 ## $lang
 ## [1] &quot;ar&quot;

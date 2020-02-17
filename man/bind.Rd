@@ -15,7 +15,7 @@ a data frame with: \code{lang}, the assigned language, \code{domain}, the assign
 \description{
 Assigns a file, based on its name or a named parameter, to a language and a domain. 
 The base name of a file is composed by a \strong{domain} and \strong{language code} 
-separated by anon-letters. A language code starts with a two (ISO 639-1) 
+separated by non-letters. A language code starts with a two (ISO 639-1) 
 letter code.
 }
 \details{

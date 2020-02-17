@@ -22,8 +22,7 @@ nothing
 Creates a POT file from text extracted with \code{\link{xgettext}}.
 }
 \examples{
-txt <- xgettext(parse(system.file('app1', 'app.R', package='gettext')))
-\dontrun{
-writePotfile(txt, 'myproject.pot')
-}
+txt  <- xgettext(system.file("shiny", "app1", "app.R", package="gettext"))
+file <- sprintf("\%s/myproject.pot", tempdir(TRUE))
+writePotfile(txt, file)
 }

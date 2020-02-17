@@ -1,27 +1,32 @@
 #' readPofile
 #'
 #' Reads one or more PO file into the library internal translation object. 
-#' If \code{file} has been created with \code{\link{language}} then several files with different
+#' If \code{file} has been created with \code{\link{bind}} then several files with different
 #' domains and languages can be read at once.
 #'
-#' @param file character vector with file names or languageFile object
+#' @param file character vector with file names or \code{\link{bind}} object
 #' @param lang character: language code (default: \code{getOption('gettext.lang')}, usually \code{"en"})
 #' @param domain character: text domain (default: \code{getOption('gettext.domain')}, usually \code{NA})
 #' @param append logical: append POfile to internal translation environment or overwrite (default)
+#' @param encoding character: encoding to be assumed for input files. It is used to mark character strings as known to be in Latin-1 or UTF-8: it is not used to re-encode the input (default: "UTF-8")
 #'
-#' @return invisibly the internal used languageFile object
+#' @note Make sure that your PO files are stored with encoding UTF-8. 
+#' You may check this under Linux with \code{file -bi myproject.po} and under Windows 
+#' if you drag and drop your \code{myproject.po} to Firefox 
+#'
+#' @return invisibly the internal used bind object
 #' @importFrom stringr str_match
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' readPofile('test_de.po', lang='de')
-#' readPofile(languageFiles('test_de.po'))
-#' }
-#' 
-readPofile <- function(file, lang=getOption('gettext.lang'), domain=getOption('gettext.domain'), append=FALSE) {
-  read.file <- function(file) {
-    fcont <- readLines(file)
+#' file <- system.file("shiny", "app2", "myproject_de_DE.po", package="gettext")
+#' # force austrian german, use default domain
+#' readPofile(file, lang="de_AT") 
+#' # detect language and domain from file name
+#' readPofile(bind(file), append=TRUE)
+readPofile <- function(file, lang=getOption('gettext.lang'), domain=getOption('gettext.domain'), append=FALSE, encoding="UTF-8") {
+  read.file <- function(file, ecoding) {
+    fcont <- readLines(file, encoding=encoding)
     # determine lines types
     df <- data.frame(line=fcont, type=rep(0, length(fcont)), param=rep('', length(fcont)),
                      file=file, lno=1:length(fcont), used=rep(FALSE, length(fcont)),
@@ -187,7 +192,7 @@ readPofile <- function(file, lang=getOption('gettext.lang'), domain=getOption('g
     lang <- langfile$lang[i]
     cat(file, "\n")
     if (file.exists(file)) {
-      df   <- read.file(file)
+      df   <- read.file(file, encoding)
       df   <- df[df$type>9,]         # delete all comments, empty and ignored lines
       dfcc <- checkchar(df)          # check quotation and escape sequences
       df$param  <- substr(df$line, dfcc$first+1, dfcc$last-1) # extract parameters

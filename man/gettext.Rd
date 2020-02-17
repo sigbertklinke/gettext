@@ -5,11 +5,19 @@
 \alias{G}
 \title{gettext}
 \usage{
-gettext(id1, lang = getOption("gettext.lang"),
-  domain = getOption("gettext.domain"), context = NA)
+gettext(
+  id1,
+  lang = getOption("gettext.lang"),
+  domain = getOption("gettext.domain"),
+  context = NA
+)
 
-G(id1, lang = getOption("gettext.lang"),
-  domain = getOption("gettext.domain"), context = NA)
+G(
+  id1,
+  lang = getOption("gettext.lang"),
+  domain = getOption("gettext.domain"),
+  context = NA
+)
 }
 \arguments{
 \item{id1}{character: untranslated message(s)}

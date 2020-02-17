@@ -18,6 +18,6 @@ a two column matrix with text constants
 Extracts all text constants from R program including \code{gettext} calls.
 }
 \examples{
-xgettext(parse(system.file('app1', 'app.R', package='gettext')))
-xgettext(parse(system.file('app2', 'app.R', package='gettext')))
+xgettext(system.file('shiny', 'app1', 'app.R', package='gettext'))
+xgettext(system.file('shiny', 'app2', 'app.R', package='gettext'))
 }
